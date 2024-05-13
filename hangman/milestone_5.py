@@ -4,29 +4,23 @@ import random
 class Hangman:
     """The Hangman game class"""
     def __init__(self, word_list, num_lives = 5):
-        self.word_list = word_list
+        self.__word_list = word_list
         self.num_lives = num_lives
-        self.word = random.choice(self.word_list)
-        self.word_guessed = ['_'] * len(self.word)
-        self.num_letters = len(set(self.word))
-        self.list_of_guesses = []
-        #print(self.word)
+        self.__word = random.choice(self.__word_list)
+        self.__word_guessed = ['_'] * len(self.__word)
+        self.num_letters = len(set(self.__word))
+        self.__list_of_guesses = []
 
-    def check_guess(self, guess):
+    def __check_guess(self, guess):
         """This function checks if the guessed letter is in the word or not"""
         guess = guess.lower()
 
-        if guess in self.word:
-            # The commented code below is my try to replace the for loop with a list comprehension
-            # guess_index = [index for index, letter in enumerate(self.word) if letter == guess]
-            # for num in guess_index:
-            #     self.word_guessed[num] = guess
-
+        if guess in self.__word:
             print(f'Good guess! {guess} is in the word.')
-            for i in range(len(self.word)):
-                if self.word[i] == guess:
-                    self.word_guessed[i] = guess
-            print(' '.join(self.word_guessed))
+            for i in range(len(self.__word)):
+                if self.__word[i] == guess:
+                    self.__word_guessed[i] = guess
+            print(' '.join(self.__word_guessed))
             
             self.num_letters -= 1
 
@@ -35,18 +29,18 @@ class Hangman:
             print(f'Sorry, {guess} is not in the word.')
             print(f'You have {self.num_lives} lives left.')
     
-    def ask_for_input(self):
+    def _ask_for_input(self):
         """This function gets the player's guessed letter, checks it's validity and """
         while True:
             guess = input('Please enter a single letter:  ')
 
             if not(len(guess) == 1 and guess[0].isalpha()):
                 print('Invalid letter. Please, enter a single alphabetical character.')
-            elif guess in self.list_of_guesses:
+            elif guess in self.__list_of_guesses:
                 print('You already tried that letter!')
             else:
-                self.check_guess(guess)
-                self.list_of_guesses.append(guess)
+                self.__check_guess(guess)
+                self.__list_of_guesses.append(guess)
                 break
 
     
@@ -61,7 +55,7 @@ def play_game(word_list):
             print('You lost')
             break
         elif game.num_letters > 0:
-            game.ask_for_input()
+            game._ask_for_input()
         else:
             print('Congratulations, you won the game')
             break
